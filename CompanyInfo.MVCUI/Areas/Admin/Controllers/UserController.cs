@@ -135,6 +135,8 @@ namespace CompanyInfo.MVCUI.Areas.Admin.Controllers
             List<Role> silinenler = new();
 
             var userId = updateVM.MyUser.Id;
+            var user = userManager.GetAllInclude(p => p.Id == userId, p => p.Roller).FirstOrDefault();
+
 
             if (!ModelState.IsValid)
             {
@@ -143,7 +145,7 @@ namespace CompanyInfo.MVCUI.Areas.Admin.Controllers
 
             //2- gelen checkBoxVMs icerisinde uncheck edilan varmi ?
 
-            foreach (var item in updateVM.MyUser.Roller)
+            foreach (var item in user.Roller)
             {
                 if (updateVM.Roller.Any(p => p.Id == item.Id && p.IsChecked == false))
                 {
@@ -154,19 +156,19 @@ namespace CompanyInfo.MVCUI.Areas.Admin.Controllers
             //3- Eklenen role varmi kontrolu
             foreach (var item in updateVM.Roller.Where(p => p.IsChecked == true))
             {
-                if (!updateVM.MyUser.Roller.Any(p => p.Id == item.Id))
+                if (!user.Roller.Any(p => p.Id == item.Id))
                 {
                     var role = roleManager.GetById(item.Id);
-                    updateVM.MyUser.Roller.Add(role);
+                    user.Roller.Add(role);
 
                 }
             }
             //4- silinenler listesindeki rolleri user'dan  remove edilmesi 
             foreach (var item in silinenler)
             {
-                updateVM.MyUser.Roller.Remove(item);
+                user.Roller.Remove(item);
             }
-            int sonuc = userManager.Update(updateVM.MyUser);
+            int sonuc = userManager.Update(user);
             if (sonuc > 0)
             {
                 return RedirectToAction("Index");

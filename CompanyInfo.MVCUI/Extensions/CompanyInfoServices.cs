@@ -19,6 +19,27 @@ namespace CompanyInfo.MVCUI.Extensions
             return services;
         }
 
+        public static IServiceCollection CookieAyarlariEkle(this IServiceCollection services)
+        {
+
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/Yasak";
+                options.Cookie.Name = "IstkaCompanyInfo";
+                options.Cookie.HttpOnly = true; // Tarayicidaki diger scriptler bu cooki okuyamasin
+                options.Cookie.SameSite = SameSiteMode.Strict; //Bizim tarayicimiz disinda kullanilmasin 
+                options.ExpireTimeSpan = TimeSpan.FromDays(1);
+                options.SlidingExpiration = true;
+
+            });
+
+
+            return services;
+        }
+
         public static string TurkceKArakterTemizle(this string str)
         {
             return str.Replace('ç', 'c').Replace('ş', 's');

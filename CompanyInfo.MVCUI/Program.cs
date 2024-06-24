@@ -18,17 +18,34 @@ namespace CompanyInfo.MVCUI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+
+            //--------Eger Development Asamasinda ise AddRuntimeComplitaion 
+            //-- Yani Runtime sirasinda Razor sayfalarindaki degisiklikleri yansitmaya
+            //-- Yarar
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddControllersWithViews()
+                    .AddRazorRuntimeCompilation();
+                // Burasi Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation paketini
+                // indirdikten sonra ancak çalistirilabilir.
+            }
+            else
+            {
+                builder.Services.AddControllersWithViews();
+            }
+
 
             //----------Burasi Extension Metod haline Getirildi-----
+            //----------Extension Klasoru icerisinde CompanyInfoService.cs dosyasindadir
             builder.Services.AddCompanyInfoServices();
-            
-            
+
+
             //---------ToastNotification Ayari---------
-            builder.Services.AddNotyf(config => 
-            { config.DurationInSeconds = 10; 
-                config.IsDismissable = true; 
-                config.Position = NotyfPosition.BottomRight; 
+            builder.Services.AddNotyf(config =>
+            {
+                config.DurationInSeconds = 10;
+                config.IsDismissable = true;
+                config.Position = NotyfPosition.BottomRight;
             });
 
             builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
