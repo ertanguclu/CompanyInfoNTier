@@ -21,7 +21,7 @@ namespace CompanyInfo.MVCUI.Controllers
             {
                 return View(loginVM);
             }
-            var usr = UserManager.GetAllInclude(p=>p.Email == loginVM.Email && p.Password == loginVM.Password,p=>p.);
+            var usr = UserManager.GetAllInclude(p => p.Email == loginVM.Email && p.Password == loginVM.Password, p => p.Roller).FirstOrDefault(); ;
 
         }
 
