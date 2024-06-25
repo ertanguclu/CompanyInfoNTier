@@ -4,6 +4,7 @@ using CompanyInfo.Entities.Models.Concrete;
 using CompanyInfo.MVCUI.Areas.Admin.Models;
 using CompanyInfo.MVCUI.Models;
 using CompanyInfo.MVCUI.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +12,7 @@ namespace CompanyInfo.MVCUI.Areas.Admin.Controllers
 {
 
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly IManager<User> userManager;
@@ -53,7 +55,7 @@ namespace CompanyInfo.MVCUI.Areas.Admin.Controllers
                     var fileExtension = Path.GetExtension(fileName);
                     // concatenating  FileName + FileExtension
                     var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
-                    string uploads = Path.Combine(hostingEnvironment.ContentRootPath, @"wwwroot/images/uploads");
+                    string uploads = Path.Combine(hostingEnvironment.ContentRootPath, $@"wwwroot/images/{newFileName}");
                     string filePath = Path.Combine(uploads, newFileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
@@ -135,6 +137,8 @@ namespace CompanyInfo.MVCUI.Areas.Admin.Controllers
             List<Role> silinenler = new();
 
             var userId = updateVM.MyUser.Id;
+            //Database'den ilgili kayda ulasiyoruz
+
             var user = userManager.GetAllInclude(p => p.Id == userId, p => p.Roller).FirstOrDefault();
 
 

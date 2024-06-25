@@ -1,11 +1,14 @@
 ﻿using CompanyInfo.BL.Managers.Abstract;
 using CompanyInfo.Entities.Models.Concrete;
 using CompanyInfo.MVCUI.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CompanyInfo.MVCUI.Controllers
+namespace CompanyInfo.MVCUI.Areas.Admin.Controllers
 {
+    [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class UrunController : Controller
     {
         private readonly IUrunManager urunManager;

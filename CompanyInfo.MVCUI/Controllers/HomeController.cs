@@ -15,6 +15,7 @@ namespace CompanyInfo.MVCUI.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 

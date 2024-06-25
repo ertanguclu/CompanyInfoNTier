@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyInfo.MVCUI.Controllers
 {
+   
     public class BirimController : Controller
     {
         private readonly IBirimManager birimManager;

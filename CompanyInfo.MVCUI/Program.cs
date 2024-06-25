@@ -38,7 +38,7 @@ namespace CompanyInfo.MVCUI
             //----------Burasi Extension Metod haline Getirildi-----
             //----------Extension Klasoru icerisinde CompanyInfoService.cs dosyasindadir
             builder.Services.AddCompanyInfoServices();
-
+            builder.Services.AddCookieAyarlar(); // CookieBase Authentication icin gerekli ayarlari ekler. Bu metod Extensions klasoru icerisinde ki class da mevcuttur
 
             //---------ToastNotification Ayari---------
             builder.Services.AddNotyf(config =>

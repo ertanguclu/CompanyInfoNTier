@@ -4,16 +4,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace CompanyInfo.MVCUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-   
+    [Authorize] // Class seviyesinde yetkilendirme demektir
+
     public class HomeController : Controller
     {
 
-        [AllowAnonymous]
+        // [AllowAnonymous]  //Burasi herkese acik demektir
         public IActionResult Index()
         {
+
+            var result = HttpContext.User.Claims;
             return View();
         }
-        [Authorize("Admin")]
+        [Authorize("Admin")] // Metod seviyesinde yetkilendirme 
         public IActionResult Test()
         {
             return View();
